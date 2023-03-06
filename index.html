@@ -1,0 +1,144 @@
+<body></body>
+<!-- <script src="p5.js"></script> -->
+<!-- <div class="slidecontainer">
+  <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+</div> -->
+
+<button id="myBtn" type="button">Make it rain!</button>
+
+<script>
+  
+  
+//   function scale (number, inMin, inMax, outMin, outMax) {
+//     return (number - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+// }
+  
+//     function magritte1() {
+//     const gif = document.createElement('img')
+//     gif.id = 'magritteMen'
+//     gif.src = 'magrittemen.gif'
+//     gif.style.position = 'absolute'
+//     gif.style.top =  200 + 'px'
+//     gif.style.left = 50 + 'px'
+//     gif.style.bottom =  700 + 'px'
+//     gif.style.width = window.innerWidth - 50+ 'px'
+//     document.body.appendChild(gif)
+//   }
+  
+  // magritte1()
+  
+  const slider = document.createElement("input");
+slider.type = "range";
+slider.min = "0";
+slider.max = "100";
+slider.value = "50";
+  
+  console.log(slider)
+  
+  document.body.appendChild(slider);
+  
+
+  
+  class WeatherGIF {
+    constructor(settings) {
+      this.x = settings.x || Math.random ()* window.innerWidth //add default values
+      this.y = settings.y || Math.random ()* window.innerHeight
+      this.windDir = settings.windDir || 10
+      this.ele = document.createElement('img')
+      this.ele.src = settings.giftype
+      this.ele.style.position = 'absolute'
+      this.ele.style.top = this.y + 'px'
+      this.ele.style.left = this.x + 'px'
+      this.ele.width = settings.width || Math.random()*100 + 50
+      this.ele.height = settings.height || Math.random()*100 + 50 
+      document.body.appendChild(this.ele)
+    }
+    fall() {
+      this.y = this.y + 10
+      this.x = this.x + this.windDir
+      this.ele.style.top = this.y + 'px'
+      this.ele.style.left = this.x + 'px'
+      if (this.y > window.innerHeight) {
+        this.y = - this.ele.height
+      }
+      if (this.x > window.innerWidth) {
+        this.x = - this.ele.width
+      }
+    }
+  }
+
+	const gifJar = []
+
+
+  function createChicago() {
+    const gif = document.createElement('img')
+    gif.src = 'chicago.png'
+    gif.style.position = 'absolute'
+    gif.style.top = 300 + 'px'
+    gif.style.left = 0 + 'px'
+    gif.style.bottom = 0 + 'px'
+    gif.style.width = window.innerWidth + 'px'
+    document.body.appendChild(gif)
+  }
+
+  function skyColor() {
+    const r = Math.random() * 255
+    const g = Math.random() * 255
+    const b = Math.random() * 255
+    const color = `rgb(${r},${g},${b})`
+    return color
+  }
+
+  document.body.style.backgroundColor = skyColor() 
+  createChicago()
+
+  function groundColor() {
+
+  }
+
+  function weather() {
+    //add gifs of weather
+    // snowis gifs slowly descending
+    //blizzard etc
+  }
+
+  function setup() {
+  //  gif1 = new WeatherGIF(20, 30, 20, 50, 'winky.gif')
+ //   gif2 = new WeatherGIF(50, 150, 50, 40, 'winky.gif')
+    // i < sliderValue which controls number of gifs
+    for (let i = 0; i < 100; i++) {
+      
+			const g = new WeatherGIF({
+        giftype: 'winky.gif'
+      })
+      gifJar.push(g)
+    }
+    // document.getElementById("magritteMen").style.display='none';
+  }
+
+  function draw() {
+    requestAnimationFrame(draw)
+    for (let i = 0; i < gifJar.length; i++) {
+   	 gifJar[i].fall()  
+    }
+  }
+  
+  function updateWind(e){
+    for (let i = 0; i < gifJar.length; i++) {
+      gifJar[i].windDir = scale(e.x, 0, window.innerWidth, 0, 40)
+    }
+  }
+  
+//   slider.addEventListener("input", function() {
+//   console.log("Slider value: ", slider.value);
+// });
+
+     document.getElementById("myBtn").onclick=function(){
+     setup()
+     
+  }
+  
+ // window.addEventListener('load', setup)
+  window.addEventListener('load', draw)
+  window.addEventListener('mousemove',updateWind)
+</script>
