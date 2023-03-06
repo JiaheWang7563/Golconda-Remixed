@@ -7,50 +7,18 @@
 <button id="myBtn" type="button">Make it rain!</button>
 
 <script>
-  
-  
-//   function scale (number, inMin, inMax, outMin, outMax) {
-//     return (number - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
-// }
-  
-//     function magritte1() {
-//     const gif = document.createElement('img')
-//     gif.id = 'magritteMen'
-//     gif.src = 'magrittemen.gif'
-//     gif.style.position = 'absolute'
-//     gif.style.top =  200 + 'px'
-//     gif.style.left = 50 + 'px'
-//     gif.style.bottom =  700 + 'px'
-//     gif.style.width = window.innerWidth - 50+ 'px'
-//     document.body.appendChild(gif)
-//   }
-  
-  // magritte1()
-  
-  const slider = document.createElement("input");
-slider.type = "range";
-slider.min = "0";
-slider.max = "100";
-slider.value = "50";
-  
-  console.log(slider)
-  
-  document.body.appendChild(slider);
-  
-
-  
   class WeatherGIF {
     constructor(settings) {
-      this.x = settings.x || Math.random ()* window.innerWidth //add default values
-      this.y = settings.y || Math.random ()* window.innerHeight
+      this.x = settings.x || Math.random() * window.innerWidth //add default values
+      this.y = settings.y || Math.random() * window.innerHeight
       this.windDir = settings.windDir || 10
       this.ele = document.createElement('img')
       this.ele.src = settings.giftype
       this.ele.style.position = 'absolute'
       this.ele.style.top = this.y + 'px'
       this.ele.style.left = this.x + 'px'
-      this.ele.width = settings.width || Math.random()*100 + 50
-      this.ele.height = settings.height || Math.random()*100 + 50 
+      this.ele.width = settings.width || Math.random() * 100 + 50
+      this.ele.height = settings.height || Math.random() * 100 + 50
       document.body.appendChild(this.ele)
     }
     fall() {
@@ -59,15 +27,15 @@ slider.value = "50";
       this.ele.style.top = this.y + 'px'
       this.ele.style.left = this.x + 'px'
       if (this.y > window.innerHeight) {
-        this.y = - this.ele.height
+        this.y = -this.ele.height
       }
       if (this.x > window.innerWidth) {
-        this.x = - this.ele.width
+        this.x = -this.ele.width
       }
     }
   }
 
-	const gifJar = []
+  const gifJar = []
 
 
   function createChicago() {
@@ -89,12 +57,12 @@ slider.value = "50";
     return color
   }
 
-  document.body.style.backgroundColor = skyColor() 
-  createChicago()
-
-  function groundColor() {
-
-  }
+  document.body.style.backgroundColor = skyColor()
+  createChicago()     
+  
+  console.log("slider.js loaded");
+    let numGif = 50;
+    createSlider();
 
   function weather() {
     //add gifs of weather
@@ -102,13 +70,37 @@ slider.value = "50";
     //blizzard etc
   }
 
+  function createSlider() {
+    // Create a label for the slider
+    console.log("createSlider called");
+    const label = document.createElement("label");
+    label.textContent = "Number of raindrops: ";
+
+    // Create a range input element
+    const slider = document.createElement("input");
+    slider.type = "range";
+    slider.min = 1;
+    slider.max = 200;
+    slider.value = numGif; // Set the initial value to the current value of numGif
+
+    // Add an event listener to update numGif whenever the slider value changes
+    slider.addEventListener("input", () => {
+      numGif = parseInt(slider.value); // Convert the slider value to an integer and update numGif
+    });
+
+    // Add the label and slider to the page
+    label.appendChild(slider);
+    document.body.appendChild(label);
+  }
+
+
   function setup() {
-  //  gif1 = new WeatherGIF(20, 30, 20, 50, 'winky.gif')
- //   gif2 = new WeatherGIF(50, 150, 50, 40, 'winky.gif')
+    //  gif1 = new WeatherGIF(20, 30, 20, 50, 'winky.gif')
+    //   gif2 = new WeatherGIF(50, 150, 50, 40, 'winky.gif')
     // i < sliderValue which controls number of gifs
-    for (let i = 0; i < 100; i++) {
-      
-			const g = new WeatherGIF({
+    for (let i = 0; i < numGif; i++) {
+
+      const g = new WeatherGIF({
         giftype: 'winky.gif'
       })
       gifJar.push(g)
@@ -119,26 +111,26 @@ slider.value = "50";
   function draw() {
     requestAnimationFrame(draw)
     for (let i = 0; i < gifJar.length; i++) {
-   	 gifJar[i].fall()  
+      gifJar[i].fall()
     }
   }
-  
-  function updateWind(e){
+
+  function updateWind(e) {
     for (let i = 0; i < gifJar.length; i++) {
       gifJar[i].windDir = scale(e.x, 0, window.innerWidth, 0, 40)
     }
   }
-  
-//   slider.addEventListener("input", function() {
-//   console.log("Slider value: ", slider.value);
-// });
 
-     document.getElementById("myBtn").onclick=function(){
-     setup()
-     
+  //   slider.addEventListener("input", function() {
+  //   console.log("Slider value: ", slider.value);
+  // });
+
+  document.getElementById("myBtn").onclick = function() {
+    setup()
+
   }
-  
- // window.addEventListener('load', setup)
+
+  // window.addEventListener('load', setup)
   window.addEventListener('load', draw)
-  window.addEventListener('mousemove',updateWind)
+  window.addEventListener('mousemove', updateWind)
 </script>
