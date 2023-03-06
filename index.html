@@ -22,7 +22,7 @@
       document.body.appendChild(this.ele)
     }
     fall() {
-      this.y = this.y + 10
+      this.y = this.y + 50
       this.x = this.x + this.windDir
       this.ele.style.top = this.y + 'px'
       this.ele.style.left = this.x + 'px'
@@ -93,6 +93,54 @@
     document.body.appendChild(label);
   }
 
+  // Define an array of image sources
+const imageSources = [
+  "winky.gif",
+  "guy.gif",
+  "raindrop.gif",
+  "internet explorer.gif",
+  "snow.gif",
+];
+
+// Initialize the current image index
+let currentImageIndex = 0;
+
+// Create a function to create the image slider
+function createImageSlider() {
+  // Create a label for the slider
+  const label = document.createElement("label");
+  label.textContent = "Select an image: ";
+
+  // Create a select element
+  const select = document.createElement("select");
+
+  // Add options to the select element based on the image sources
+  for (let i = 0; i < imageSources.length; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.text = `Image ${i + 1}`;
+    select.appendChild(option);
+  }
+
+  // Set the initial selected option to the first one
+  select.value = currentImageIndex;
+
+  // Add an event listener to update the current image index when the selected option changes
+  select.addEventListener("change", () => {
+    currentImageIndex = parseInt(select.value);
+    currentGif = imageSources[currentImageIndex];
+  });
+
+  // Add the label and select element to the page
+  label.appendChild(select);
+  document.body.appendChild(label);
+}
+
+// Call the createImageSlider() function to create the image slider
+createImageSlider();
+
+// Use the current image index to set the currentGif variable
+let currentGif = imageSources[currentImageIndex];
 
   function setup() {
     //  gif1 = new WeatherGIF(20, 30, 20, 50, 'winky.gif')
@@ -101,11 +149,10 @@
     for (let i = 0; i < numGif; i++) {
 
       const g = new WeatherGIF({
-        giftype: 'winky.gif'
+        giftype: currentGif
       })
       gifJar.push(g)
     }
-    // document.getElementById("magritteMen").style.display='none';
   }
 
   function draw() {
